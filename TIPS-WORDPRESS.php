@@ -640,3 +640,66 @@ deny from all
 <?php wp_reset_postdata(); ?>   
 </ul>
 ?>
+
+<!-- Loop para categorias -->
+<section class="">
+	<?php if ( get_query_var('paged') ) { $paged = get_query_var('paged'); } elseif ( get_query_var('page') ) { $paged = get_query_var('page'); } else { $paged = 1; } 
+		/* $paged = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1; */
+		$custom_query_args = array(
+				//'category_name' => 'custom-cat',
+				//'post_type' => 'post', //--> array( 'post', 'page', 'movie', 'book' )
+				'post_type' => 'post', 
+				'posts_per_page' => -1,  //-->
+				'paged' => $paged, //-->
+				'post_status' => 'publish', //-->
+				'ignore_sticky_posts' => true, //-->
+				'order' => 'DESC', //--> 'DESC' | 'ASC'
+				'orderby' => 'date' //--> modified | title | name | ID | rand
+		);
+		$custom_query = new WP_Query( $custom_query_args );
+		if ( $custom_query->have_posts() ) : while( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
+		<div class="col-sm-12 col-md-4 col-lg-4 post-item grid-item p0 <?php $catID = the_category_ID($echo=false); echo $catID; ?> <?php $categories = get_the_category(); $category_list = join( ' ', wp_list_pluck( $categories, 'name' ) ); echo strtolower(wp_kses_post( $category_list )); ?>" >
+						
+			<?php $classes = array('post-entry', 'wow', 'animate__animated', 'animate__fadeIn', $termsString, $custom_values); ?>
+			<div <?php post_class($classes);?> data-wow-duration=".6s" data-wow-delay=".5s" data-wow-offset="5">
+
+				<div class="wrapp-thumbnail">
+					<!-- thumbnail-post -->
+						<p class="title-entry" style=""><?php the_title(); ?></p>
+						<small class="byline"><?php echo strtolower(get_the_date('j F , Y')); ?></small>
+						<?php $thumb_id = get_post_thumbnail_id(); $thumb_url = wp_get_attachment_image_src( $thumb_id, 'full'); ?>
+							<?php if(has_post_thumbnail() ): ?>
+								<picture class="thumb-category" style="background: url(<?php echo $thumb_url['0'];?>) no-repeat center center;background-size: cover;"></picture>
+							<?php else : ?>
+								<!-- <img src="<?php //echo get_template_directory_uri(); ?>/images/default-carousel.jpg ?>" class="img-fluid" alt=""> -->
+								<picture class="thumb-category" style="background: url('<?php echo get_template_directory_uri(); ?>/assets/images/default-category.jpg') no-repeat center center;background-size: cover;"></picture>
+						<?php endif; ?>							
+					<!-- end thumbnail-post -->
+				</div>
+
+
+				<div class="post-info">
+					<h4 class="title"><a href="<?php the_permalink(); ?>" title="ir a: <?php the_title(); ?>"><?php the_title(); ?></a></h4>
+					<p class="sumary"><?php echo strtolower(get_the_date('j F , Y')); ?></p>
+					<div class="">
+						<a href="<?php the_permalink();?>" class="link-details" title="ir a <?php the_title_attribute(); ?>"><i class="fa fa-link"></i></a>
+					</div>
+				</div><!--./post-info -->
+
+
+			</div><!--./post-wrapp -->
+
+
+		</div><!--./grid-item -->
+
+	
+
+		<?php endwhile; ?>
+		<?php wp_reset_postdata(); ?>
+		<?php else : get_template_part( 'template-parts/content', 'oops' );  endif; ?>
+</section><!-- ./grid --> 
+
+
+<!-- Agregar clases personalizadas de forma dinamica -->
+<?php $classes = array('post-entry', 'wow', 'animate__animated', 'animate__fadeIn', $termsString, $custom_values); ?>
+<div <?php post_class($classes);?> data-wow-duration=".6s" data-wow-delay=".5s" data-wow-offset="5"></div>
