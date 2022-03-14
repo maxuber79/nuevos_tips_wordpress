@@ -9,7 +9,7 @@
 </a>
 
 
-<?php // loop básico ------------------------------------------------------------------ ?>
+<?php // loop bï¿½sico ------------------------------------------------------------------ ?>
 
 <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
   <!-- loop -->
@@ -55,7 +55,7 @@ wp_reset_postdata();
 //=========================================================================================
 //con paginado:
 
- // Obtenemos todos los posts con 10 en cada página
+ // Obtenemos todos los posts con 10 en cada pï¿½gina
     $args = array(
         'post_type'         => 'post',
         'posts_per_page'    => 10,
@@ -78,7 +78,7 @@ wp_reset_postdata();
 	function hmuda_modificar_main_query($query){
     //Primero asegurar que es la consulta principal y que es la home
     if( is_home() && $query->is_main_query() ){
-        //Hacer la modificación que sea
+        //Hacer la modificaciï¿½n que sea
         $query->set( 'posts_per_page', '4' );
         $query->set( 'cat', '-7' );
     }
@@ -89,7 +89,7 @@ add_action('pre_get_posts', 'hmuda_modificar_main_query');
 	
 	WP_Query()
 	
-	//Definir los parámetros de la consulta a la base de datos
+	//Definir los parï¿½metros de la consulta a la base de datos
 $args = array(
     'posts_per_page' => 3,
     'cat'  => 8,
@@ -107,7 +107,7 @@ wp_reset_postdata();
 //=======================================================================================================
 	
 get_posts()	
-	//Definir los parámetros de la consulta a la base de datos
+	//Definir los parï¿½metros de la consulta a la base de datos
 $args = array(
     'posts_per_page' => 3,
     'cat'  => 8,
@@ -121,122 +121,92 @@ foreach( $myposts as $post ) :
     the_title();
 endforeach;
 wp_reset_postdata();
+?>s
 
-<?php 
-//=======================================================================================================
-// COMO LLAMAR LOS TITULOS DE UN page.php, single.php, index.php: ?>
 
-//Versión 1:<!-- te entrega el nombre de la categoria -->
-<h2><a href="<?php echo get_category_link(ej.3); ?>" title="ir a<?php the_title_attribute(); ?>">****<?php echo get_cat_name(3);?>****</a></h2>	
-//-----------------------------------------------------------------------------
-//Versión 2:<!-- Puede usarse tambien el siguiente -->
+<?php
+/*
+* COMO LLAMAR LOS TITULOS DE UN page.php, single.php, index.php:
+**/
+?>
+<!-- Versiï¿½n 1: te entrega el nombre de la categoria -->
+<h2><a href="<?php echo get_category_link(ej.3); ?>" title="ir a<?php the_title_attribute(); ?>"><?php echo get_cat_name(3);?></a></h2>
+<!-- Versiï¿½n 2: Puede usarse tambien el siguiente -->
 <h2><a href="<?php echo get_category_link(ej.3); ?>" title="ir a<?php the_title_attribute(); ?>">****<?php the_title(); ?>****</a></h2>
 <h2><a href="<?php the_permalink(); ?>" title="ir a<?php the_title_attribute(); ?>">****<?php the_title(); ?>****</a></h2>
-//-----------------------------------------------------------------------------
-//Versión 3:<!-- Puede usarse tambien el siguiente -->
+<!-- Versiï¿½n 3: Puede usarse tambien el siguiente -->
 <?php the_title( '<h3>', '</h3>' ); ?>
 <?php the_title_attribute('before=<h3>&after=</h3>'); ?>
-//-----------------------------------------------------------------------------
-//Version 4:<!-- Puede usarse tambien el siguiente -->
+<!-- Version 4: Puede usarse tambien el siguiente -->
 <?php the_title('<h1 class="entry-title"><a href="' . get_permalink() . '"title="' . the_title_attribute('echo=0') . '" rel="bookmark">','</a></h1>'); ?>
-//-----------------------------------------------------------------------------
 
-//=======================================================================================================
-Mostrar las categorias: <?php the_category( $separator, $parents, $post_id ); ?> 
+
+<!-- Mostrar las categorias:  -->
+<?php the_category( $separator, $parents, $post_id ); ?> 
 
 <p>Categoria: <?php the_category(''); ?></p>
 
-con comas o algun código ascii
+<!-- con comas o algun cï¿½digo ascii -->
 
 <p>Categoria: <?php the_category(', '); ?></p>
 <p>Categoria: <?php the_category(' &gt; '); ?></p>
 <p>Categoria: <?php the_category(' &bull; '); ?></p>
 
-//=======================================================================================================
-//COMO MOSTRAR LOS METAS: <?php the_meta(); ?>
-//-----------------------------------------------------------------------------
+<!-- COMO MOSTRAR LOS METAS: --> 
+<?php the_meta(); ?>
+
 <p>Meta information for this post:</p>
 <?php the_meta(); ?>
-//-----------------------------------------------------------------------------
+
 <ul class='post-meta'>
 <li><span class='post-meta-key'>your_key:</span> your_value</li>
 </ul>
-//-----------------------------------------------------------------------------
 
-
-
-//=======================================================================================================
-
-//COMO MOSTRAR LOS TAGS:  <?php the_tags( $before, $sep, $after ); ?> 
-//-----------------------------------------------------------------------------
+<!-- COMO MOSTRAR LOS TAGS: -->
+<?php the_tags( $before, $sep, $after ); ?>
 <p><?php the_tags(); ?></p>
-//-----------------------------------------------------------------------------
 por comas:
 <?php the_tags('Tags: ', ', ', '<br />'); ?>
 <?php the_tags('Social tagging: ',' > '); ?>
-<?php the_tags('Tagged with: ',' • ','<br />'); ?>
+<?php the_tags('Tagged with: ',' ï¿½ ','<br />'); ?>
 <?php the_tags('<ul><li>','</li><li>','</li></ul>'); ?>
-//-----------------------------------------------------------------------------
 
-
-
-
-
-//=======================================================================================================
-//WordPress: NUMERO TOTAL DE POST DE UNA CATEGORIA
-//insertar la función dentro del archivo functions.php de vuestro theme:
-//-----------------------------------------------------------------------------
+<!-- WordPress: NUMERO TOTAL DE POST DE UNA CATEGORIA
+ insertar la funciï¿½n dentro del archivo functions.php de vuestro theme: -->
+<?php
 function numero_total_post($idcat) {
     global $wpdb;
     $query = "SELECT count FROM $wpdb->term_taxonomy WHERE term_id = $idcat";
     $numero = $wpdb->get_col($query);
     echo $numero[0];
 }
-//-----------------------------------------------------------------------------
-//Usar de la siguiente forma:
-//-----------------------------------------------------------------------------
-<p>Esta categoría tiene un total de: <?php echo numero_total_post(23); ?> entradas.</p>
-//-----------------------------------------------------------------------------
+?>
+<!-- Usar de la siguiente forma: -->
+<p>Esta categorï¿½a tiene un total de: <?php echo numero_total_post(23); ?> entradas.</p>
 
-
-//=======================================================================================================
-//INFORMACION PARA LOS SINGLES:
-//-----------------------------------------------------------------------------
+<!-- INFORMACION PARA LOS SINGLES: -->
 <div class="metabox">
  <span class="time meta">Publicado el <?php the_time('j') ?> de <?php the_time('F, Y') ?> | </span><span class="author meta">Por <?php the_author_posts_link(); ?> | </span>
  <span class="comments meta"><?php comments_popup_link('Sin Comentarios', '1 Comentario', '% Comentarios'); ?> | </span><span class="category meta">En la categor&iacute;a <?php the_category(' '); ?> | </span>
  <span class="tags meta">Con las siguientes etiquetas <?php the_tags(); ?></span>
  </div>
-//-----------------------------------------------------------------------------
- <p>Escrito por: <?php the_author(); ?></p>
-//-----------------------------------------------------------------------------
+
+<p>Escrito por: <?php the_author(); ?></p>
+ 
 <p>Publicado el <?php the_time('j') ?> de <?php the_time('F, Y') ?></p>
-//-----------------------------------------------------------------------------
+
 <span class="comments meta"><?php comments_popup_link('Sin Comentarios', '1 Comentario', '% Comentarios'); ?> | </span>
 
-
-//=======================================================================================================
-
-
-//MOSTRAR FECHA EN ESPAÑOL
-//-----------------------------------------------------------------------------
+<!-- MOSTRAR FECHA EN ESPAï¿½OL -->
 <?php the_time('d \d\e\ F \d\e\ Y');?>
-//-----------------------------------------------------------------------------
 
-
-
-//PARA ENVOLVER EL POST CON UN CLASS O ID PERSONALIZADO
-//=======================================================================================================
+<!-- PARA ENVOLVER EL POST CON UN CLASS O ID PERSONALIZADO -->
 
 <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<a class="leermas" href="<?php the_permalink(); ?>">Leer mï¿½s &rarr;</a>
 
-//-----------------------------------------------------------------------------
-<a class="leermas" href="<?php the_permalink(); ?>">Leer más &rarr;</a>
-
-
-//PAGINACION NUMERICA:
-//=======================================================================================================
-AGREGAR EN function.php
+<!-- PAGINACION NUMERICA: -->
+<!-- AGREGAR EN function.php -->
 
 <?php
 function paginado() {
@@ -263,33 +233,29 @@ function paginado() {
     echo paginate_links( $pagination );
 }
 ?>
-//-----------------------------------------------------------------------------
-//CODIGO A UTILIZAR EN EL TEMPLATE: <?php paginado(); ?>
-//=======================================================================================================
+
+<!-- CODIGO A UTILIZAR EN EL TEMPLATE: --> 
+<?php paginado(); ?>
 
 
-
-
-
-//SIDEBAR DINAMICOS PARA WIDGET
-//=======================================================================================================	
-
-/*Copiar en el archivo function.php
-1.- name: El nombre del Sidebar, por defecto es ‘Sidebar’.
+<?php /*
+SIDEBAR DINAMICOS PARA WIDGET
+Copiar en el archivo function.php
+1.- name: El nombre del Sidebar, por defecto es ï¿½Sidebarï¿½.
 2.- id: El id del sidebar (ej: sidebar-derecha), por defecto es el ID numerico auto-generado.
 3.- description: Texto de descripcion del sidebar a registrar, se muestra en la pagina de Widgets, por defecto esta vacio
 4.- class: Clase CSS a asignar a los widgets de este Sidebar.
-5.- before_widget: Código HTML que ira antes de cada widget, por defecto es <li>
-6.- after_widget: Código HTML que ira después de cada widget, por defecto es </li>
-7.- before_title: Código HTML que ira antes del título del Widget, por defecto es <h2>
-8.- after_title: Código HTML que ira después del título del Widget, por defecto es </h2>*/
-
+5.- before_widget: Cï¿½digo HTML que ira antes de cada widget, por defecto es <li>
+6.- after_widget: Cï¿½digo HTML que ira despuï¿½s de cada widget, por defecto es </li>
+7.- before_title: Cï¿½digo HTML que ira antes del tï¿½tulo del Widget, por defecto es <h2>
+8.- after_title: Cï¿½digo HTML que ira despuï¿½s del tï¿½tulo del Widget, por defecto es </h2>
+**/?>
 <?php
 register_sidebar( 
 	array(
   		'name' => 'Zona de Anuncios',
   		'id' => 'ad-zone',
-  		'description' => 'Aquí irán los anuncios del sitio',
+  		'description' => 'Aquï¿½ irï¿½n los anuncios del sitio',
   		'before_widget' => '<div class="widget ad">',
   		'after_widget'  => '</div>',
   		'before_title' => '<strong class="adtitle">',
@@ -297,13 +263,11 @@ register_sidebar(
   	)
 );
 ?>
-//-----------------------------------------------------------------------------
-//CODIGO A UTILIZAR EN EL TEMPLATE: <?php dynamic_sidebar( 'ad-zone' ); ?>
-//=======================================================================================================
 
+<!-- CODIGO A UTILIZAR EN EL TEMPLATE: --> 
+<?php dynamic_sidebar( 'ad-zone' ); ?>
 
-//LOOP para ordenar los post por ABC
-//=======================================================================================================   
+<!-- LOOP para ordenar los post por ABC -->
 <?php 
 
         //Conttrolas si ya estamos paginando
@@ -330,11 +294,7 @@ register_sidebar(
 
         if ($my_socio -> have_posts() ) : while ($my_socio -> have_posts() ) : $my_socio -> the_post(); ?>
 
-
-//=======================================================================================================   
-// FORMAS DE LLAMAR UN THUMBNAILS:
-//=======================================================================================================  
-
+<!-- FORMAS DE LLAMAR UN THUMBNAILS: -->
 
 <?php if (has_post_thumbnail( $post->ID ) ): ?>
         <?php $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'thumb-banner-page' ); ?>
@@ -369,15 +329,13 @@ $thumb = wp_get_attachment_image_src( get_post_thumbnail_id($id), 'full' );
 
 
 
-//======================================================================================================= 
-// PRUEBA COMO BACKGROUND:
-//======================================================================================================= 
- <?php 
+ <!-- PRUEBA COMO BACKGROUND: --> 
+<?php 
 $id = $post->ID;
 if( ! has_post_thumbnail( $id ) ) {
     // the current page has no feature image
     // so we'll see if a) it has a parent and b) the parent has a featured image
-    $ancestors = get_ancestors( $post->ID, 'thumb-testimonio' );
+    $ancestors = get_ancestors( $post->ID, 'nombre del thumbnail' );
     $parent_id = $ancestors[0];
     if( has_post_thumbnail( $parent_id ) ) {
         // we'll use the parent's featured image
@@ -388,23 +346,17 @@ if( ! has_post_thumbnail( $id ) ) {
 $thumb = wp_get_attachment_image_src( get_post_thumbnail_id($id), 'full' );
 ?><div class='thumbnailTestimonio' style='background-image: url(<?php echo $thumb['0']; ?>);'></div>
 
-//======================================================================================================= 
-// PRUEBA COMO ETIQUETA IMG:
-//======================================================================================================= 
+<!-- PRUEBA COMO ETIQUETA IMG: -->
     <?php $thumb_id = get_post_thumbnail_id();
        $thumb_url = wp_get_attachment_image_src($thumb_id,'Mi THUMBNAIL PERSONALIZADO', true); 
     ?>
     <img src="<?php echo $thumb_url[0]; ?>" alt="<?php the_title(); ?>" title="<?php the_title(); ?>" class="mi clase personalizada" width="n" height="n">
 
-//======================================================================================================= 
-// PRUEBA COMO BACKGROUND SIMPLE:
-//======================================================================================================= 
+<!-- PRUEBA COMO BACKGROUND SIMPLE: -->
 <?php $thumb = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
 <div id="post" class"your-class" style="background-image: url('<?php echo $thumb['0'];?>')">
 
-//======================================================================================================= 
-// VINCULAR CSS EN FUNCTION.PHP
-//======================================================================================================= 
+<!-- VINCULAR CSS EN FUNCTION.PHP --> 
 <?php
 wp_enqueue_style('styleTheme', get_stylesheet_uri());
 wp_register_style('boostrap', get_template_directory_uri().'/library/bootstrap/bootstrap.min.css');
@@ -472,10 +424,10 @@ add_action( 'wp_enqueue_scripts', 'wpb_add_google_fonts' );
 add_theme_support('post-thumbnails');
 add_image_size ('thumb-news-home', 350, 150, true);
 add_image_size ('thumb-news-blog', 280, 180, true);
-add_image_size('large', 700, 600);           // Tamaño grande (defecto 640px x 640px max)
-add_image_size('full', 700, 600);            // Tamaño real (tamaño original de la imagen subida)
+add_image_size('large', 700, 600);           // Tamaï¿½o grande (defecto 640px x 640px max)
+add_image_size('full', 700, 600);            // Tamaï¿½o real (tamaï¿½o original de la imagen subida)
 the_post_thumbnail('thumbnail');       // Thumbnail (defecto 150px x 150px max)
-the_post_thumbnail('medium');          // Tamaño medio (defecto 300px x 300px max)
+the_post_thumbnail('medium');          // Tamaï¿½o medio (defecto 300px x 300px max)
 
 ?>
 //======================================================================================================= 
@@ -483,7 +435,7 @@ the_post_thumbnail('medium');          // Tamaño medio (defecto 300px x 300px ma
 //======================================================================================================= 
 //LOGOTIPO INICIO
 <?php
- //* Cambia el logotipo de la página inicio de sesión de WordPress (usar imagen de 80x80px)
+ //* Cambia el logotipo de la pï¿½gina inicio de sesiï¿½n de WordPress (usar imagen de 80x80px)
 function mi_logo_personalizado() { ?>
     <style type="text/css">
         body.login div#login h1 a {
@@ -505,10 +457,7 @@ add_action( 'login_enqueue_scripts', 'mi_logo_personalizado' );
 
 
 ?>
-
-//============================================================================================================
-// LOOP FINAL PARA UN THEME
-//===========================================================================================================
+<!-- LOOP FINAL PARA UN THEME -->
 
     <?php if(have_posts()) : while(have_posts()) : the_post(); ?>
 
@@ -525,37 +474,24 @@ add_action( 'login_enqueue_scripts', 'mi_logo_personalizado' );
         <?php endwhile; else: ?>        
             <div class="msj-error">   
                 <h2>404</h2>
-                <h3>Algo salió mal</h3>
+                <h3>Algo saliï¿½ mal</h3>
                 <p>Oops! Lo sentimos este contenido ya no exite</p>
                 <a href="#" class="btn red" title="---" alt="---">Regresa al inicio</a>
             </div><!-- mensaje de error -->
         <?php endif; ?>
 
-//============================================================================================================
-// CREAR UN TEMPLATE PARA LOS PAGE.PHP
-//===========================================================================================================
+<!-- CREAR UN TEMPLATE PARA LOS PAGE.PHP -->
 
-        <?php /* Template name: blog */ ?>
+<?php /* Template name: blog */ ?>
 
-//============================================================================================================
-// CAMBIAR UN HEADER EN EL THEME
-//===========================================================================================================
-
-    <?php get_header('landing'); ?> 
-    //El nombre langin hace referencia al nombre del archivo header-landing.php
-
-
-
-//============================================================================================================
-// COMO LLAMAR UN ARCHIVO PHP AL THEME
-//============================================================================================================
-
+<!-- CAMBIAR UN HEADER EN EL THEME -->
+<?php get_header('landing'); ?> 
+<!-- El nombre langin hace referencia al nombre del archivo header-landing.php -->
+<!-- COMO LLAMAR UN ARCHIVO PHP AL THEME -->
 <?php include (TEMPLATEPATH. '/nombre-archivo.php'); ?>
 
 
-//============================================================================================================
-// VARIOS SCRIPT
-//============================================================================================================
+<!-- VARIOS SCRIPT -->
 
 <a href="<?php the_permalink() ?>" rel="bookmark" title="Permalink a <?php the_title_attribute(); ?>"><?php the_title(); ?></a>
 <span><?php the_time('F jS, Y') ?> | en <?php the_author_posts_link() ?></span>
@@ -567,7 +503,7 @@ add_action( 'login_enqueue_scripts', 'mi_logo_personalizado' );
 <body <?php body_class(); ?>>
 
 <body class="page page-id-2 page-parent page-template-default logged-in">
-<?php
+
 <style type="text/css"> 
     .page {
         /* styles for all posts within the page class */
@@ -579,20 +515,20 @@ add_action( 'login_enqueue_scripts', 'mi_logo_personalizado' );
         /* styles for all pageviews when the user is logged in */
     }
 </style>
-?>
-//####################################################################################
-// LOOP CON ORDEN 
-//####################################################################################
-<?php $the_query = new WP_query('cat=20&posts_per_page=70&orderby=title&order=asc'); ?>
-            <?php while ($the_query -> have_posts() ) : $the_query -> the_post(); ?>
+
+<!-- LOOP WP_query corto con orden --> 
+
+<?php $the_query = new WP_query('cat=20&posts_per_page=70&orderby=title&order=asc');
+			while ($the_query -> have_posts() ) : $the_query -> the_post(); ?>
                 
-                    <a class="---" id="---" href="#" title="ir a <?php the_title_attribute(); ?>" alt="---">
-                        <?php if ( has_post_thumbnail() ) { the_post_thumbnail('name-thumb'); }       
-                        else { ?>
-                        <img class="---" id="---" src="<?php echo get_template_directory_uri(); ?>/images/thumbnail-default-socios2.png" alt="---" title="---" /> <?php } ?>
-                    </a>    
+	<a class="" id="" href="#" title="ir a <?php the_title_attribute(); ?>" alt="">
+			<?php if ( has_post_thumbnail() ) { the_post_thumbnail('name-thumb'); }       
+			else { ?>
+				<img class="" id="" src="<?php echo get_template_directory_uri(); ?>/images/thumbnail-default-socios2.png" alt="" title=""> 
+			<?php } ?>
+	</a>    
                     
-            <?php endwhile; wp_reset_query(); ?>     
+<?php endwhile; wp_reset_query(); ?>     
 
 
 
@@ -617,20 +553,29 @@ add_theme_support('post-formats', array(
 
 ?>
 
-<?php // pegar en functions.php ára eliminar la version del wordrpess
+<?php 
+/* 
+*Templatepegar en functions.php ï¿½ra eliminar la version del wordrpess
+**/
 	remove_action('wp_head', 'wp_generator');
 ?>
-<?php // para actualizacion automaticas del wordpress
 
-//Todas las actualizaciones del núcleo desactivadas
+<?php 
+/* 
+*para actualizacion automaticas del wordpress
+**/
+
+//Todas las actualizaciones del nï¿½cleo desactivadas
 define( 'WP_AUTO_UPDATE_CORE', false );
-//Todas las actualizaciones del núcleo activadas
+//Todas las actualizaciones del nï¿½cleo activadas
 define( 'WP_AUTO_UPDATE_CORE', true );
-//Sólo actualizaciones menores del núcleo activadas
+//Sï¿½lo actualizaciones menores del nï¿½cleo activadas
 define( 'WP_AUTO_UPDATE_CORE', 'minor' );
 ?>
 
-<?php //Protege el archivo de configuración de WordPress 
+<?php 
+/* 
+* translProtege el archivo de configuraciï¿½n de WordPress 
 <Files wp-config.php>
 order allow,deny
 deny from all
@@ -650,9 +595,14 @@ deny from all
 order allow,deny
 deny from all
 </files>
+**/
+?>
 
-
-// Bubuscador para un widget
+<?php
+/* 
+* Bubuscador para un widget
+**/
+?>
 <form role="search" method="get" id="searchform" class="searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>">
     <div>
         <label class="screen-reader-text" for="s"><?php _x( 'Search for:', 'label' ); ?></label>
@@ -661,12 +611,11 @@ deny from all
     </div>
 </form>
 
-
-// lista de ultimas noticias
+<!-- lista de ultimas noticias -->
 <ul class="media-list">
-    <?php
-$my_query = new WP_Query('cat=2&posts_per_page=6');
-    while ( $my_query -> have_posts() ) : $my_query -> the_post(); ?>
+    <?php $my_query = new WP_Query('cat=2&posts_per_page=6');
+    while ( $my_query -> have_posts() ) : $my_query -> the_post(); 
+		?>
   <li class="media">
     <div class="media-left">
       <a href="#">
@@ -684,7 +633,7 @@ $my_query = new WP_Query('cat=2&posts_per_page=6');
                 echo content('10');
                 }
         ?></p>
-        <a href="<?php the_permalink(); ?>" title="ir a <?php the_title_attribute(); ?>" class="asidevermas"> Leer más</a>
+        <a href="<?php the_permalink(); ?>" title="ir a <?php the_title_attribute(); ?>" class="asidevermas"> Leer mï¿½s</a>
     </div>
   </li>
   <?php endwhile; ?>
