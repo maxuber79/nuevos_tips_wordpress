@@ -703,3 +703,166 @@ deny from all
 <!-- Agregar clases personalizadas de forma dinamica -->
 <?php $classes = array('post-entry', 'wow', 'animate__animated', 'animate__fadeIn', $termsString, $custom_values); ?>
 <div <?php post_class($classes);?> data-wow-duration=".6s" data-wow-delay=".5s" data-wow-offset="5"></div>
+
+
+<?php  $category_id = get_cat_ID( 'name_slug_category' ); $category_link = get_category_link( $category_id );	?>
+<a href="<?php echo esc_url( $category_link ); ?>"></a>
+
+<a href="<?php echo get_page_link( get_page_by_path( 'name_page' ) ); ?>"></a>
+
+
+<?php  $category_id = get_cat_ID( 'noticias' ); $category_link = get_category_link( $category_id );	?>
+<a href="<?php echo esc_url( $category_link ); ?>" class="item-topics word-bluelight" data-toggle="tooltip" data-placement="top" title="">lorem ipsun dolor</a>
+				
+
+<?php
+	// Obtiene el slug de la página actual y llamarla en el theme
+	$page_slug = get_post_field('post_name', get_post());
+	?>
+ <section id="<?php echo esc_attr($page_slug); ?> | <?php echo esc_html( get_the_title() ); ?> | post-<?php  the_ID(); ?> <?php echo get_the_id();?>" <?php post_class('wrapp-header-page'); ?> style="background-image: url(<?php  the_post_thumbnail_url(); ?>);"> 
+				
+
+
+<!-- para llamar a una pagina -->
+<a href="<?php echo get_page_link( get_page_by_path( 'consultoria' ) ); ?>" class="btn btn-calltoaction">más información</a>
+
+
+
+<a href="<?php the_permalink();?>" <?php post_class('link-details'); ?> title="ir a <?php the_title_attribute(); ?>" alt="<?php the_title(); ?>">Leer más <i class="fa fa-link"></i></a>
+
+<?php
+// Obtiene el ID de la página actual y llamarla en el theme
+// The post ID: 192 
+echo "<h2>The post ID: ".get_the_ID()."</h2>";
+// The Queried Object ID: 134 
+echo "<h2>The Queried Object ID: ".get_queried_object_id()."</h2>";
+
+echo "<h2>The Queried Object ID: ".esc_html( get_the_title() )."</h2>";
+
+echo "<h2>The Queried Object ID: ".wp_kses_post( get_the_title() ) ."</h2>";
+    
+echo "<h2>The Queried Object ID: ".the_title_attribute()."</h2>";
+
+
+?>
+
+
+<!--DEREGISTROS DE LIBRERIAS -->
+<?php
+function my_deregister_scripts() {
+
+	if( is_page() ) {
+		wp_deregister_script( 'NAME_LIB' );
+   	wp_dequeue_script('NAME_LIB');
+		}
+	if( is_singular() ) {
+		wp_deregister_script( 'NAME_LIB' );
+   	wp_dequeue_script('cNAME_LIB');
+		} 
+
+	if( is_front_page() ) {
+		wp_deregister_script( 'NAME_LIB' );
+   	wp_dequeue_script('NAME_LIB');
+
+		 wp_deregister_script('NAME_LIB' );
+   	wp_dequeue_script( 'sNAME_LIB');
+		} 
+}
+add_action( 'wp_enqueue_scripts', 'my_deregister_scripts', 1000 );
+
+/* or */
+add_action( 'wp_enqueue_scripts', 'my_deregister_scripts', 1000 );
+ function my_deregister_scripts() {
+   wp_deregister_script( 'wdm_script' );
+   wp_dequeue_script('wdm_script');
+   wp_deregister_script( 'enjoyHint_script' );
+   wp_dequeue_script('enjoyHint_script');
+}
+
+
+function deregister_isotope() {
+wp_dequeue_script( 'jquery-isotope' );
+wp_deregister_script( 'jquery-isotope' );
+}
+add_action( 'wp_print_scripts', 'deregister_isotope' )
+
+wp_deregister_script()
+wp_deregister_style()
+wp_dequeue_script()
+wp_dequeue_style()
+
+
+/* Agregar un html al page desde el function.php */
+/**
+ * Segundo logo en paginas interiores
+ * @since Bercometal
+ */
+function brandpage_header() { ?>
+	<!-- Logo -->
+	<a class="link-brandpage" href="<?php echo esc_url(home_url('/')); ?>" aria-label="Front">
+		<span class="center-brandpage">
+			<img class="brandpage" src="<?php echo get_template_directory_uri();?>/images/logoSlogan.png" alt="Bercometal">
+		</span>
+	</a>
+	<!-- End Logo -->
+<?php }
+add_action( 'start_header_logo', 'brandpage_header');
+
+/**
+ * @aplicación de function
+ * <?php do_action('start_header_logo'); ?>
+ * 
+ */
+
+
+ /**
+ * Modificacion url custom logo
+ * @since bercometal 1.0
+ */
+function dpw_custom_logo() {
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+    $html = sprintf( '<a href="%1$s" class="scrollto custom-logo-link" rel="home" itemprop="url">%2$s</a>',
+	esc_url( home_url('/') ),
+	wp_get_attachment_image( $custom_logo_id, 'full', false, array(
+		'class'    => 'custom-logo logo-img',
+		) )
+	);
+    return $html;  
+}
+add_filter( 'get_custom_logo', 'dpw_custom_logo' );
+
+<?php
+//----------------------------------------//
+// Making jQuery load from Google Library //
+//----------------------------------------//
+
+add_filter( 'init', 'replace_default_jquery_with_fallback');
+function replace_default_jquery_with_fallback() {
+
+	if (is_admin()) {
+		return;
+	}
+
+    $ver = '1.12.4';
+    $migrateVer = '1.4.1';
+
+    // Dequeue first then deregister
+    wp_dequeue_script( 'jquery' );
+    wp_dequeue_script( 'jquery-migrate' );
+
+    wp_deregister_script( 'jquery' );
+    wp_deregister_script( 'jquery-migrate' );
+
+    // Set last parameter to 'true' if you want to load it in footer
+    wp_register_script( 'jquery-core', "//ajax.googleapis.com/ajax/libs/jquery/$ver/jquery.min.js", '', $ver, false );
+    // wp_register_script( 'jquery-mask', "//cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js", '', '1.14.10', false );
+    wp_register_script( 'jquery-migrate', "//cdnjs.cloudflare.com/ajax/libs/jquery-migrate/$migrateVer/jquery-migrate.min.js", '', $migrateVer, false );
+
+    // Fallback
+    wp_add_inline_script( 'jquery-core', 'window.jQuery||document.write(\'<script src="'.includes_url( '/js/jquery/jquery.js' ).'"><\/script>\')' );
+    wp_add_inline_script( 'jquery-migrate', 'window.jQuery||document.write(\'<script src="'.includes_url( '/js/jquery/jquery-migrate.min.js' ).'"><\/script>\')' );
+
+    wp_enqueue_script ( 'jquery-core' );
+    // wp_enqueue_script ( 'jquery-mask' );
+    wp_enqueue_script ( 'jquery-migrate' );
+}
