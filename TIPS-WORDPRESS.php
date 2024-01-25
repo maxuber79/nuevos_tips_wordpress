@@ -1,6 +1,15 @@
 
 
 <?php 
+/**
+ * @snippet       Muchos Snipe para Wordpress
+ * @how-to        Get FREE
+ * @author        cmunozm
+ * @testedwith    Wordpress ultima versión
+ * @donate      
+ */
+
+
 // COMO VOLVER AL HOME A TRAVES DE UN LINK
 //============================================================================================= ?>
 
@@ -654,7 +663,7 @@ deny from all
 				'post_status' => 'publish', //-->
 				'ignore_sticky_posts' => true, //-->
 				'order' => 'DESC', //--> 'DESC' | 'ASC'
-				'orderby' => 'date' //--> modified | title | name | ID | rand
+				'orderby' => 'date' //--> modified | title | name | ID | rand | meta_value 
 		);
 		$custom_query = new WP_Query( $custom_query_args );
 		if ( $custom_query->have_posts() ) : while( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
@@ -746,6 +755,11 @@ echo "<h2>The Queried Object ID: ".the_title_attribute()."</h2>";
 
 ?>
 
+<li>category-blogs.php | <?php echo get_cat_name( $category_id = 5 );?></li> 
+					  <li><p>cat test1: <?php $category = get_the_category(); echo $category[0]->cat_name; ?></p></li>						
+						<li><p>cat test2: <?php $catname = get_cat_name( 5 ); echo $catname;?></p></li> 
+						<li><p>cat test3: <?php echo get_cat_name( $category_id = 5 )  ?></p></li>
+
 
 <!--DEREGISTROS DE LIBRERIAS -->
 <?php
@@ -831,7 +845,7 @@ function dpw_custom_logo() {
 }
 add_filter( 'get_custom_logo', 'dpw_custom_logo' );
 
-<?php
+ 
 //----------------------------------------//
 // Making jQuery load from Google Library //
 //----------------------------------------//
@@ -866,3 +880,10 @@ function replace_default_jquery_with_fallback() {
     // wp_enqueue_script ( 'jquery-mask' );
     wp_enqueue_script ( 'jquery-migrate' );
 }
+?>
+<?php
+//LLamar el nombre de una categoria por medio de un link fuera del loop
+?>
+ <a href="<?php echo esc_url( $blog_link ); ?>" title="<?php $slug = 'blog';$cat = get_category_by_slug($slug); echo $cat ? $cat->name : 'Categoría no encontrada';">Blog</a></li>
+ 
+ 
