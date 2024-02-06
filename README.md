@@ -38,6 +38,9 @@ Este loop medio tiene como parametros adicionales para llamar al content o exerp
 ### Loop Avanzado
 Este loop avanzado tiene como parametros adicionales para llamar al content o exerpt y adicionalmente mostrar errores si es que no existe el contenido y el thumbnail si es que hay.
 
+[!NOTE]
+> Este loop es ideal para utilizarlo en un category.php / page.php / single.php.
+
 **Ejemplo:**
 ```php
 	<?php if(have_posts()) : while(have_posts()) : the_post(); ?>
