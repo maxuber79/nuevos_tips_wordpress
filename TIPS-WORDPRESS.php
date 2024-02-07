@@ -180,18 +180,7 @@ por comas:
 <?php the_tags('Tagged with: ',' � ','<br />'); ?>
 <?php the_tags('<ul><li>','</li><li>','</li></ul>'); ?>
 
-<!-- WordPress: NUMERO TOTAL DE POST DE UNA CATEGORIA
- insertar la funci�n dentro del archivo functions.php de vuestro theme: -->
-<?php
-function numero_total_post($idcat) {
-    global $wpdb;
-    $query = "SELECT count FROM $wpdb->term_taxonomy WHERE term_id = $idcat";
-    $numero = $wpdb->get_col($query);
-    echo $numero[0];
-}
-?>
-<!-- Usar de la siguiente forma: -->
-<p>Esta categor�a tiene un total de: <?php echo numero_total_post(23); ?> entradas.</p>
+
 
 <!-- INFORMACION PARA LOS SINGLES: -->
 <div class="metabox">
@@ -246,7 +235,18 @@ function paginado() {
 <!-- CODIGO A UTILIZAR EN EL TEMPLATE: --> 
 <?php paginado(); ?>
 
-
+<!-- WordPress: NUMERO TOTAL DE POST DE UNA CATEGORIA
+ insertar la funci�n dentro del archivo functions.php de vuestro theme: -->
+<?php
+function numero_total_post($idcat) {
+    global $wpdb;
+    $query = "SELECT count FROM $wpdb->term_taxonomy WHERE term_id = $idcat";
+    $numero = $wpdb->get_col($query);
+    echo $numero[0];
+}
+?>
+<!-- Usar de la siguiente forma: -->
+<p>Esta categor�a tiene un total de: <?php echo numero_total_post(23); ?> entradas.</p>
 <?php /*
 SIDEBAR DINAMICOS PARA WIDGET
 Copiar en el archivo function.php

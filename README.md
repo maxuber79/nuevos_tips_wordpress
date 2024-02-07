@@ -189,7 +189,7 @@ Estos tips  tiene como proposito ayudar a mostrar algun contenido desde la BD se
 <!--@Version 4: Puede usarse tambien el siguiente -->
 <?php the_title('<h1 class="entry-title"><a href="' . get_permalink() . '"title="' . the_title_attribute('echo=0') . '" rel="bookmark">','</a></h1>'); ?>
 ```
-### Categorias
+### Categorias y tags
 Estos tips  tiene como proposito ayudar a mostrar algun contenido desde la BD segun la plantilla que se quiere aplicar, dentro o fuera del loop de wordpress, En algunos ejemplos, se utiliza [bootstrap 5.3](https://getbootstrap.com/docs/5.3/).
 
 **Ejemplos:**
@@ -213,4 +213,35 @@ Estos tips  tiene como proposito ayudar a mostrar algun contenido desde la BD se
 <p><i class="bi bi-tag-fill"></i><?php the_tags('Social tagging: ',' > '); ?></p>
 <p><i class="bi bi-tag-fill"></i><?php the_tags('Tagged with: ',' � ','<br />'); ?></p>
 <p><i class="bi bi-tag-fill"></i><?php the_tags('<ul><li>','</li><li>','</li></ul>'); ?></p>
+```
+
+### Metadatos byline
+Estos tips  tiene como proposito ayudar a mostrar algun dato del post, desde la BD segun la plantilla que se quiere aplicar, dentro o fuera del loop de wordpress, En algunos ejemplos, se utiliza [bootstrap 5.3](https://getbootstrap.com/docs/5.3/).
+
+**Ejemplos:**
+```php
+<!--@información full de byline -->
+<div class="metabox">
+ <span class="time meta">Publicado el <?php the_time('j') ?> de <?php the_time('F, Y') ?> | </span><span class="author meta">Por <?php the_author_posts_link(); ?> | </span>
+ <span class="comments meta"><?php comments_popup_link('Sin Comentarios', '1 Comentario', '% Comentarios'); ?> | </span><span class="category meta">En la categor&iacute;a <?php the_category(' '); ?> | </span>
+ <span class="tags meta">Con las siguientes etiquetas <?php the_tags(); ?></span>
+ </div>
+
+<p>Escrito por: <?php the_author(); ?></p>
+ 
+<p>Publicado el <?php the_time('j') ?> de <?php the_time('F, Y') ?></p>
+
+<span class="comments meta"><?php comments_popup_link('Sin Comentarios', '1 Comentario', '% Comentarios'); ?> | </span>
+
+<!--Mostrar fecha en espanol -->
+<?php the_time('d \d\e\ F \d\e\ Y');?>
+
+<!--Otras ideas -->
+<span class="wrapp-date">
+	<i class="bi bi-calendar-event-fill"></i> <?php echo strtolower(get_the_date('j F,Y')); ?>
+</span>
+<span class="wrapp-date">
+	<i class="bi bi-bookmark-fill"></i> <?php echo strtolower(the_category(', ')); ?>
+</span>
+
 ```
