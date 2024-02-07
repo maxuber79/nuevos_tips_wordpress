@@ -69,7 +69,9 @@ Este loop avanzado tiene como parametros adicionales para llamar al content o ex
 
 
 ### Loop Avanzado para categorias y paginación
-Este loop avanzado tiene como parametros adicionales para llamar al content o exerpt y adicionalmente mostrar errores si es que no existe el contenido y el thumbnail si es que hay.
+Este loop avanzado tiene como parametros adicionales para llamar al content o exerpt y adicionalmente mostrar errores si es que no existe el contenido y el thumbnail si es que hay muestra una imagen defafult.
+La paginación esta porporsionada por bootstrap el cual es una dependencia que se debe incluir en la plantilla en function.php.
+Para la libreria de paginación se puede descargar desde el siguiente [link de referencia](https://gist.github.com/mtx-z/af85d3abd4c19a84a9713e69956e1507).
 
 [!NOTE]
 > Este loop es ideal para utilizarlo en un category.php para mosotrar todos los post totales.
@@ -82,13 +84,13 @@ Este loop avanzado tiene como parametros adicionales para llamar al content o ex
 			//'post_type' => 'post', //--> array( 'post', 'page', 'movie', 'book' )
 			//'post_type' => 'post', 
 			//'category__not_in' => array( 1,2,3),
-			'category_name' => 'blog',
+			'category_name' => 'name_category',
 			'posts_per_page' => 5,  //-->
 			'paged' => $paged, //-->
 			'post_status' => 'publish', //-->
 			'ignore_sticky_posts' => true, //-->
 			'order' => 'ASC', //--> 'DESC' | 'ASC'
-			//'orderby' => 'date' //--> modified | title | name | ID | rand
+			'orderby' => 'date' //--> modified | title | name | ID | rand
 	);
 	$custom_query = new WP_Query( $custom_query_args );
 	if ( $custom_query->have_posts() ) : while( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
@@ -132,7 +134,7 @@ Este loop avanzado tiene como parametros adicionales para llamar al content o ex
 ```
 
 ### Loop reducido para mostrar categorias 
-Este loop reducido es hecho con [WP_Query](https://developer.wordpress.org/reference/classes/wp_query/) tiene como parametros adicionales para llamar al content o exerpt y el thumbnail si es que existe, para esto implemento un disño segun bootstrap.
+Este loop reducido es hecho con [WP_Query](https://developer.wordpress.org/reference/classes/wp_query/) tiene como parametros adicionales para llamar al content o exerpt y el thumbnail si es que existe, para esto implemento un disño segun [bootstrap media object](https://getbootstrap.com/docs/5.3/utilities/flex/#media-object).
 
 [!NOTE]
 > Este loop es ideal para utilizarlo en un category.php o widget para mosotrar todos los post totales.
@@ -161,4 +163,54 @@ Este loop reducido es hecho con [WP_Query](https://developer.wordpress.org/refer
 		<?php wp_reset_postdata(); ?>	              
   </ul>
 </div>
+```
+
+
+## Tips varios
+
+### Titulos
+Estos tips  tiene como proposito ayudar a mostrar algun contenido desde la BD segun la plantilla que se quiere aplicar, dentro o fuera del loop de wordpress, En algunos ejemplos, se utiliza [bootstrap 5.3](https://getbootstrap.com/docs/5.3/).
+
+**Ejemplo de titulos:**
+```php
+<!--@Version 1: Entrega el nombre de la categoria -->
+<h2><a href="<?php echo get_category_link(ej.3); ?>" title="<?php the_title_attribute(); ?>"><?php echo get_cat_name(3);?></a></h2>
+
+<!--@Version 2: Puede usarse tambien el siguiente -->
+<h2><a href="<?php echo get_category_link(ej.3); ?>" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
+<h2><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
+
+<!--@Version 3: Puede usarse tambien el siguiente -->
+
+<?php the_title( '<h3>', '</h3>' ); ?>
+<?php the_title_attribute('before=<h3>&after=</h3>'); ?>
+<?php the_title(sprintf( '<h2 class="title"><a class="blog-title" href="%s" rel="bookmark">', esc_attr( esc_url( get_permalink() ) ) ), '</a></h2>');?>
+
+<!--@Version 4: Puede usarse tambien el siguiente -->
+<?php the_title('<h1 class="entry-title"><a href="' . get_permalink() . '"title="' . the_title_attribute('echo=0') . '" rel="bookmark">','</a></h1>'); ?>
+```
+### Categorias
+Estos tips  tiene como proposito ayudar a mostrar algun contenido desde la BD segun la plantilla que se quiere aplicar, dentro o fuera del loop de wordpress, En algunos ejemplos, se utiliza [bootstrap 5.3](https://getbootstrap.com/docs/5.3/).
+
+**Ejemplos:**
+```php
+<!--@Mostrar categorias:  -->
+<p><i class="bi bi-bookmark-fill"></i> <?php the_category( $separator, $parents, $post_id ); ?></p>
+<p><i class="bi bi-bookmark-fill"></i> <?php the_category(''); ?></p>
+
+<!--@Mostrar con comas o algun codigo ascii -->
+<p><i class="bi bi-bookmark-fill"></i> <?php the_category(', '); ?></p>
+<p><i class="bi bi-bookmark-fill"></i> <?php the_category(' &gt; '); ?></p>
+<p><i class="bi bi-bookmark-fill"></i> <?php the_category(' &bull; '); ?></p>
+
+<!--@Mostrar tags --> 
+<p>Meta information for this post:</p>
+<p><i class="bi bi-tag-fill"></i> <?php the_meta(); ?></p>
+
+<!--@Mostrar tags con comas o algun codigo ascii -->
+<p><i class="bi bi-tag-fill"></i><?php the_tags( $before, $sep, $after ); ?></p>
+<p><i class="bi bi-tag-fill"></i><?php the_tags('Tags: ', ', ', '<br />'); ?></p>
+<p><i class="bi bi-tag-fill"></i><?php the_tags('Social tagging: ',' > '); ?></p>
+<p><i class="bi bi-tag-fill"></i><?php the_tags('Tagged with: ',' � ','<br />'); ?></p>
+<p><i class="bi bi-tag-fill"></i><?php the_tags('<ul><li>','</li><li>','</li></ul>'); ?></p>
 ```
