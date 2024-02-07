@@ -130,3 +130,35 @@ Este loop avanzado tiene como parametros adicionales para llamar al content o ex
 	<!--@END:End pagination-->
 
 ```
+
+### Loop reducido para mostrar categorias 
+Este loop reducido es hecho con [WP_Query](https://developer.wordpress.org/reference/classes/wp_query/) tiene como parametros adicionales para llamar al content o exerpt y el thumbnail si es que existe, para esto implemento un disño segun bootstrap.
+
+[!NOTE]
+> Este loop es ideal para utilizarlo en un category.php o widget para mosotrar todos los post totales.
+
+**Ejemplo:**
+```php
+<div class="mi-class">
+	<ul>
+		<?php $my_query = new WP_Query('category_name=my-category&posts_per_page=number-post');
+				while ( $my_query -> have_posts() ) : $my_query -> the_post(); ?>
+				<li><div class="d-flex align-items-center">
+					<div class="flex-shrink-0">
+						<img src="..." alt="...">
+					</div>
+					<div class="flex-grow-1 ms-3">
+						<?php the_title( '<h2>', '</h2>' ); ?>
+						<?php if ( is_category() || is_archive() ) {
+								the_excerpt();
+							} else {
+								the_content();
+							} ?>
+						<a href="<?php the_permalink(); ?>" title="ir a <?php the_title_attribute(); ?>" class="asidevermas"> Leer m�s</a>
+					</div>
+				</div></li>   
+		<?php endwhile;?>
+		<?php wp_reset_postdata(); ?>	              
+  </ul>
+</div>
+```
