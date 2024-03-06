@@ -140,7 +140,7 @@ Para la libreria de paginación se puede descargar desde el siguiente [link de r
 ```
 
 ### Loop reducido para mostrar categorias 
-Este loop reducido es hecho con [WP_Query](https://developer.wordpress.org/reference/classes/wp_query/) tiene como parametros adicionales para llamar al content o exerpt y el thumbnail si es que existe, para esto implemento un disño segun [bootstrap media object](https://getbootstrap.com/docs/5.3/utilities/flex/#media-object).
+Este loop reducido es hecho con [WP_Query](https://developer.wordpress.org/reference/classes/wp_query/) tiene como parametros adicionales para llamar al content o exerpt y el thumbnail si es que existe, para esto implemento un diseño segun [bootstrap media object](https://getbootstrap.com/docs/5.3/utilities/flex/#media-object).
 
 [!NOTE]
 > Este loop es ideal para utilizarlo en un category.php o widget para mosotrar todos los post totales.
@@ -171,6 +171,42 @@ Este loop reducido es hecho con [WP_Query](https://developer.wordpress.org/refer
 </div>
 ```
 
+### Loop reducido para mostrar pages
+Este loop reducido es hecho con [WP_Query](https://developer.wordpress.org/reference/classes/wp_query/) tiene como parametros adicionales para llamar al content o exerpt y el thumbnail si es que existe, para esto implemento un diseño segun [bootstrap 5.3](https://getbootstrap.com/docs/5.3/).
+**Ejemplo:**
+```php
+<section id="my-id" class="my-class" style="background-image: url(<?php echo get_template_directory_uri(); ?>/assets/images/my-image.jpg)">
+	<div class="container">
+		<div class="row">				
+			<div class="col-sm-12 col-md-6 offset-md-6">
+				<?php $my_query = new WP_Query(array( 'pagename' => 'example' )); if ( $my_query->have_posts() ) : while ($my_query -> have_posts() ) : $my_query -> the_post(); ?>
+				<?php the_title(sprintf( '<h2 class="title"><a class="link-title" href="%s" rel="bookmark">', esc_attr( esc_url( get_permalink() ) ) ), '</a></h2>');?>
+				<?php the_content(); ?>
+				<!-- Button de edit -->
+				<?php if ( get_edit_post_link() ) : ?>
+					<div class="row">
+						<div class="col-12 edit-post">
+							<div class="wrapp-btn btn-right">													
+								<?php edit_post_link( __( 'Editar post', 'Elev' ), '<p>', '</p>', null, 'btn btn-getstarted' ); ?>
+							</div><!-- .entry-footer -->
+						</div>
+					</div><!--./row-->
+				<?php endif; ?>
+				<!-- End Button edit -->
+				<?php endwhile;?>
+				<?php wp_reset_postdata(); ?>
+				<?php else : ?>
+					<div class="row">
+						<div class="col-12 p-5">
+							<div class="alert alert-warning alert-dismissible my-3 text-center" role="alert"><strong>Oops!</strong>  Lo sentimos este contenido ya no exite</div>
+						</div><!--./col-12 p-5-->			
+					</div><!--./row-->
+				<?php endif; ?>
+				</div><!--./col-sm-12 col-md-6 offset-md-6-->
+			</div><!--./row-->		
+	</div><!--./container-->
+</section><!--./my-class-->
+```
 
 ## Tips varios
 
