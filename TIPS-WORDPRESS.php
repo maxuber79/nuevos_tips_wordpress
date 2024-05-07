@@ -733,7 +733,7 @@ deny from all
 
 
 <!-- para llamar a una pagina -->
-<a href="<?php echo get_page_link( get_page_by_path( 'consultoria' ) ); ?>" class="btn btn-calltoaction">más información</a>
+<a href="<?php echo get_page_link( get_page_by_path( '[name-page]' ) ); ?>" class="btn btn-calltoaction">más información</a>
 
 
 
@@ -884,6 +884,72 @@ function replace_default_jquery_with_fallback() {
 <?php
 //LLamar el nombre de una categoria por medio de un link fuera del loop
 ?>
- <a href="<?php echo esc_url( $blog_link ); ?>" title="<?php $slug = 'blog';$cat = get_category_by_slug($slug); echo $cat ? $cat->name : 'Categoría no encontrada';">Blog</a></li>
- 
- 
+ <a href="<?php echo esc_url( $blog_link ); ?>" title="<?php $slug = 'blog';$cat = get_category_by_slug($slug); echo $cat ? $cat->name : 'Categoría no encontrada'; ?>">Blog</a></li>
+<?php
+// TIPS de Seguridad
+
+// Deniega el acceso al archivo wp-config.php
+<Files wp-config.php>
+Order Allow,Deny
+Deny from all
+</Files>
+
+// Bloquear el acceso a tu sitio por completo para determinadas direcciones IP.
+<Limit GET POST PUT>
+order allow, deny
+allow from all
+deny from 123.123.123.1
+deny from 555.555.555.5
+deny from 000.000.000.0
+</Limit>
+
+// Bloquear acceso a la carpeta wp-content
+Order deny,allow
+Deny from all
+<Files ~ ".(xml|css|jpe?g|png|gif|js)$">
+Allow from all
+</Files>
+
+// Bloquear el acceso a wp-login.php con htaccess
+<Files wp-login.php>
+Order Deny,Allow
+Deny from all
+Allow from xx.xx.xx.xx
+</Files>
+
+//Protege el archivo wp-config.php
+<Files wp-config.php> 
+order allow,deny
+deny from all
+</Files> 
+
+//Protege el archivo xmlrpc.php
+<files xmlrpc.php>
+order allow,deny
+deny from all
+</files>
+
+
+
+//Evita el SPAM en comentarios desde .htaccess
+	RewriteEngine On
+	RewriteCond %{REQUEST_METHOD} POST
+	RewriteCond %{REQUEST_URI} .wp-comments-post.php*
+	RewriteCond %{HTTP_REFERER} !.*dominio.com.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} ^$
+	RewriteRule (.*) ^https://%{REMOTE_ADDR}/$ [R=301,L]
+
+//Nota: Cambia “dominio.com” por el nombre real del dominio que utilices en tu sitio web.
+//hook de inicio de sesión para acceder a eliminar cualquier mensaje de error de la página de inicio de sesión.
+add_filter('login_errors',create_function('$a', "return null;"));
+
+//Restringe el acceso a tu carpeta wp-content
+//La carpeta wp-content contiene los archivos de temas y plugins de tu instalación. El acceso a esa carpeta no debe ser directo, con excepción //de las imágenes, JavaScript y CSS que puedan ser utilizados por el tema que has escogido.
+
+//Para corregir eso, crea un archivo .htaccess dentro de la carpeta wp-content a través del «Administrador de archivos» de tu Panel de Control, //y agrega la siguiente línea:
+
+Order deny,allow
+deny from all
+<files ~ ".(xml|css|jpe?g|png|gif|js)$">
+allow from all
+</files>
