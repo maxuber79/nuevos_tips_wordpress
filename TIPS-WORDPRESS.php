@@ -953,3 +953,55 @@ deny from all
 <files ~ ".(xml|css|jpe?g|png|gif|js)$">
 allow from all
 </files>
+
+/* Ordenar por custom post type*/
+	<?php
+				// the query.
+				$the_query = new WP_Query( array( 'category_name' => 'team','posts_per_page' => -1,'meta_key' => 'carousel_position','orderby' =>'meta_value','order'=> 'ASC' ) ); ?>
+
+				<?php if ( $the_query->have_posts() ) : ?>
+					<!-- pagination here -->
+
+					<!-- the loop -->
+					<?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
+						
+					<h2><?php the_title(); ?></h2>
+
+
+
+
+					<?php endwhile; ?>
+					<!-- end of the loop -->
+
+					<!-- pagination here -->
+
+					<?php wp_reset_postdata(); ?>
+
+				<?php else : ?>
+					<p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p>
+				<?php endif; ?>
+	<?php
+				// the query.
+				$the_query = new WP_Query( array( 'category_name' => 'team','posts_per_page' => -1,'meta_key' => 'carousel_position','orderby' =>'meta_value','order'=> 'ASC' ) ); ?>
+
+				<?php if ( $the_query->have_posts() ) : ?>
+					<!-- pagination here -->
+
+					<!-- the loop -->
+					<?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
+						
+					<h2><?php the_title(); ?></h2>
+
+
+
+
+					<?php endwhile; ?>
+					<!-- end of the loop -->
+
+					<!-- pagination here -->
+
+					<?php wp_reset_postdata(); ?>
+
+				<?php else : ?>
+					<p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p>
+				<?php endif; ?>
