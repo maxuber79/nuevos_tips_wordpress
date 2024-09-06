@@ -939,6 +939,16 @@ deny from all
 	RewriteCond %{HTTP_USER_AGENT} ^$
 	RewriteRule (.*) ^https://%{REMOTE_ADDR}/$ [R=301,L]
 
+	# BLOQUEO SPAM NO REFERIDO
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_METHOD} POST
+RewriteCond %{HTTP_USER_AGENT} ^$ [OR]
+RewriteCond %{HTTP_REFERER} !^http(s)?://([^.]+\.)?colorvivo\.com [NC]
+RewriteCond %{REQUEST_URI} /wp-comments-post\.php [NC]
+RewriteRule .* - [F,L]
+</IfModule>
+
 //Nota: Cambia “dominio.com” por el nombre real del dominio que utilices en tu sitio web.
 //hook de inicio de sesión para acceder a eliminar cualquier mensaje de error de la página de inicio de sesión.
 add_filter('login_errors',create_function('$a', "return null;"));
