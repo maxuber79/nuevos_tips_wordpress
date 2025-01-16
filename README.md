@@ -394,3 +394,96 @@ Estos tips  tiene como proposito aplicar url personalizadas en la plantilla segu
 ```php
 <a href="<?php the_permalink();?>" <?php post_class('link-details'); ?> title="ir a <?php the_title_attribute(); ?>" alt="<?php the_title(); ?>">my link <i class="fa fa-link"></i></a>
 ```	
+### Imagenes
+Estos tips  tiene como proposito ayudar a mostrar algun contenido desde la BD segun la plantilla que se quiere aplicar, dentro o fuera del loop de wordpress.
+
+```php
+//Obtener una imagen destacada para backgorund
+$background_image = has_post_thumbnail() ? get_the_post_thumbnail_url( get_the_ID(), '[name_thumbnail]' ) : get_template_directory_uri() . '/assets/images/.../image-default.jpg';
+?>
+<section id="my_ID" class="my_class" style="background-image: url('<?php echo esc_url( $background_image ); ?>'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+</section>
+```
+
+```php
+//Obtener una imagen destacada para HTML img
+<?php if( !empty(get_the_post_thumbnail())) :?>
+ 	<div class="box-image">
+	<?php the_post_thumbnail('full', array('class' => 'img-fluid my_class','alt' => get_the_title(), 'title'=> get_the_title(), 'id' => 'my_ID' ));?> 
+		</div>
+	<?php else:?>
+		<div class="box-image">
+			<img src="<?php echo get_template_directory_uri(); ?>/assets/images/oxwear/thumbnails/thumb-default.png" alt="">
+	</div>
+<?php endif; ?>
+```
+
+```php
+<img 
+    src="<?php echo esc_url(get_template_directory_uri() . '/images/mi-imagen.jpg'); ?>" 
+    alt="Texto alternativo descriptivo para SEO"
+    title="Título de la imagen (opcional)" 
+    width="800" 
+    height="600" 
+    loading="lazy" 
+    class="mi-clase-css"
+/>
+```
+
+```php
+//Ejemplo usando imágenes de la biblioteca de medios:
+<?php
+// ID del adjunto (puedes obtenerlo desde el administrador de medios de WP)
+$image_id = 123; // Reemplaza con el ID de tu imagen
+
+//Genera el HTML para la imagen
+echo wp_get_attachment_image( 
+    $image_id,         // ID del adjunto
+    'full',            // Tamaño de la imagen ('thumbnail', 'medium', 'large', 'full')
+    false,             // Icono (false para imágenes normales)
+    array(
+        'alt' => 'Descripción alternativa para SEO', // Opcional, WordPress usa el ALT configurado en medios si no lo incluyes.
+        'class' => 'mi-clase-css',                   // Opcional, estilos personalizados.
+        'loading' => 'lazy'                          // Carga diferida para rendimiento.
+    )
+);
+?>
+```
+
+```php
+//Usar wp_get_attachment_image
+
+<?php
+// Obtener el ID de la imagen de un campo personalizado o lógica personalizada
+$image_id = get_field('image_field'); // Reemplázalo por tu método de obtención del ID
+
+if (!empty($image_id)) : ?>
+    <div class="box-image">
+        <?php 
+        // Generar la imagen usando wp_get_attachment_image
+        echo wp_get_attachment_image(
+            $image_id,
+            'full', // Cambia a 'thumbnail', 'medium', etc., si necesitas otro tamaño
+            false,  // No como ícono
+            array(
+                'alt' => get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: 'Texto alternativo por defecto',
+                'class' => 'mi-clase-css', // Clase CSS opcional
+                'loading' => 'lazy'        // Lazy load para optimización
+            )
+        ); 
+        ?>
+    </div>
+<?php else: ?>
+    <div class="box-image">
+        <!-- Imagen predeterminada -->
+        <img 
+            src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/oxwear/thumbnails/thumb-default.png'); ?>" 
+            alt="Texto alternativo para la imagen predeterminada"
+            title="Título de la imagen predeterminada"
+            width="800"
+            height="600"
+            loading="lazy"
+        />
+    </div>
+<?php endif; ?>
+```
