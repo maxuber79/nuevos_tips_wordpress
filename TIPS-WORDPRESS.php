@@ -740,6 +740,13 @@ deny from all
 <a href="<?php the_permalink();?>" <?php post_class('link-details'); ?> title="ir a <?php the_title_attribute(); ?>" alt="<?php the_title(); ?>">Leer más <i class="fa fa-link"></i></a>
 
 <?php
+	$nosotros_page = get_page_by_path('nosotros');
+	$nosotros_url  = get_page_link($nosotros_page);
+	$nosotros_title = get_the_title($nosotros_page);
+	?>
+<a class="btn-border --dark btn-md" href="<?php echo esc_url($nosotros_url); ?>" title="Ir a <?php echo esc_attr($nosotros_title); ?>">Conoce más sobre nosotros</a> 
+
+<?php
 // Obtiene el ID de la página actual y llamarla en el theme
 // The post ID: 192 
 echo "<h2>The post ID: ".get_the_ID()."</h2>";
